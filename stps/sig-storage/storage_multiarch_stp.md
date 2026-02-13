@@ -16,7 +16,7 @@
 
 ---
 
-**Document Conventions (if applicable):** [Define acronyms or terms specific to this document]
+**Document Conventions (if applicable):**
 - **CDI**: Containerized Data Importer - responsible for importing VM disk images into Kubernetes
 - **DIC**: DataImportCron - automates periodic import of VM images
 - **SSP**: Scheduling, Scale and Performance Operator - manages VM templates and common resources
@@ -196,8 +196,8 @@ Each goal should tie back to requirements from Section I and be independently ve
 
   | Risk Category        | Specific Risk for This Feature                          | Mitigation Strategy | Status |
   |:-------------------- |:------------------------------------------------------- |:------------------- |:------ |
-  | Timeline/Schedule    | Code-Freeze                                             |                     | [ ]    |
-  | Test Coverage        |                                                         |                     | [ ]    |
+  | Timeline/Schedule    | N/A                                                     |                     | [ ]    |
+  | Test Coverage        | N/A                                                     |                     | [ ]    |
   | Test Environment     | [CNV-76482](https://issues.redhat.com/browse/CNV-76482) |                     | [ ]    |
   | Untestable Aspects   | N/A                                                     |                     | [ ]    |
   | Resource Constraints | N/A                                                     |                     | [ ]    |
