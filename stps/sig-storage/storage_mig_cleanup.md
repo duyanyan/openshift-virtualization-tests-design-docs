@@ -253,4 +253,3 @@ This Software Test Plan requires approval from the following stakeholders:
 * **Approvers:**
   - [Name / @github-username]
   - [Name / @github-username]
-
