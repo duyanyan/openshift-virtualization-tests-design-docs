@@ -11,7 +11,7 @@
 | **Jira Tracking**      | [CNV-73892](https://issues.redhat.com/browse/CNV-73892)                                                                          |
 | **QE Owner(s)**        | Yan Du                                                                                                                           |
 | **Owning SIG**         | sig-storage                                                                                                                      |
-| **Participating SIGs** | sig-storage                                                                                                                      |
+| **Participating SIGs** | sig-infra, sig-storage, sig-virt                                                                                                 |
 | **Current Status**     | draft                                                                                                                            |
 
 **Document Conventions:**
