@@ -45,7 +45,7 @@ technology, and testability before formal test planning.
     - Spec level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
     - Combination of namespace level and spec level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
     - Default retentionPolicy is keepSource
-    - RetentionPolicy works when migration failed
+    - RetentionPolicy will not clean up the volume when migration failed
   - *Note any gaps or missing criteria:* None
 
 - [ ] **Non-Functional Requirements (NFRs)**
@@ -266,13 +266,10 @@ The following conditions must be met before testing can begin:
   - *Test Scenario:* [Tier 2] Verify default behavior when retentionPolicy is not set
   - *Priority:* P1
 
-- **[TBD]** — Migration failed with retentionPolicy keepSource
-  - *Test Scenario:* [Tier 2] Verify source DV/PVC will be remained after migration failed
+- **[TBD]** — Migration failed with retentionPolicy keepSource/deleteSource
+  - *Test Scenario:* [Tier 2] Verify source DV/PVC will be affected when migration failed
   - *Priority:* P2
 
-- **[TBD]** — Migration failed with retentionPolicy deleteSource
-  - *Test Scenario:* [Tier 2] Verify source DV/PVC will be cleaned up after migration failed
-  - *Priority:* P2
 
 ---
 
