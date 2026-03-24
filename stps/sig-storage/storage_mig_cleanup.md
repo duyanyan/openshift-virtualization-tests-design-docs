@@ -39,11 +39,13 @@ technology, and testability before formal test planning.
   - *Note any requirements that are unclear or untestable:* Downstream build includes the code is available
 
 - [ ] **Acceptance Criteria**
-  - *List the acceptance criteria:*
-    - retentionPolicy works with VirtualMachineStorageMigrationPlan
-    - namespace level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
-    - spec level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
-    - combination of namespace level and spec level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
+  - *List the acceptance criteria:* 
+    - RetentionPolicy works with VirtualMachineStorageMigrationPlan
+    - Namespace level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
+    - Spec level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
+    - Combination of namespace level and spec level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
+    - Default retentionPolicy is keepSource
+    - RetentionPolicy works when migration failed
   - *Note any gaps or missing criteria:* None
 
 - [ ] **Non-Functional Requirements (NFRs)**
