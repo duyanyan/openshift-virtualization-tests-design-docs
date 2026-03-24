@@ -38,7 +38,7 @@ technology, and testability before formal test planning.
 - [x] **Testability**
   - *Note any requirements that are unclear or untestable:* Downstream build includes the code is available
 
-- [ ] **Acceptance Criteria**
+- [x] **Acceptance Criteria**
   - *List the acceptance criteria:*
     - RetentionPolicy works with VirtualMachineStorageMigrationPlan
     - Namespace level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
@@ -48,7 +48,7 @@ technology, and testability before formal test planning.
     - RetentionPolicy will not clean up the volume when migration failed
   - *Note any gaps or missing criteria:* None
 
-- [ ] **Non-Functional Requirements (NFRs)**
+- [x] **Non-Functional Requirements (NFRs)**
   - *List applicable NFRs and their targets:* Documentation: User guide updates for retentionPolicy in migration plan
   - *Note any NFRs not covered and why:* None
 
@@ -68,14 +68,14 @@ The following topics will not be tested or supported.
   - *List identified challenges:* Identified potential testing challenges related to the underlying technology.
   - *Impact on testing approach:*
 
-- [ ] **API Extensions**
+- [x] **API Extensions**
   - *List new or modified APIs:* Introduces a retentionPolicy field to user for keeping (keepSource) or deleting (deleteSource) the old volume.
   - *Testing impact:* None
 
-- [ ] **Test Environment Needs**
+- [x] **Test Environment Needs**
   - *See environment requirements in Section II.3 and testing tools in Section II.3.1*
 
-- [ ] **Topology Considerations**
+- [x] **Topology Considerations**
   - *Describe topology requirements:* None
   - *Impact on test design:* None
 
@@ -127,39 +127,39 @@ No verification activities will be performed for these items, and any related is
 
 **Non-Functional**
 
-- [ ] **Performance Testing** — Validates feature performance meets requirements (latency, throughput, resource usage)
+- [x] **Performance Testing** — Validates feature performance meets requirements (latency, throughput, resource usage)
   - *Details:* No performance testing currently
 
-- [ ] **Scale Testing** — Validates feature behavior under increased load and at production-like scale (e.g., large number of VMs, nodes, or concurrent operations)
+- [x] **Scale Testing** — Validates feature behavior under increased load and at production-like scale (e.g., large number of VMs, nodes, or concurrent operations)
   - *Details:* Not applicable
 
-- [ ] **Security Testing** — Verifies security requirements, RBAC, authentication, authorization, and vulnerability scanning
+- [x] **Security Testing** — Verifies security requirements, RBAC, authentication, authorization, and vulnerability scanning
   - *Details:* Not security relevant
 
-- [ ] **Usability Testing** — Validates user experience and accessibility requirements
+- [x] **Usability Testing** — Validates user experience and accessibility requirements
   - *Details:* Will be covered by UI team
 
-- [ ] **Monitoring** — Does the feature require metrics and/or alerts?
+- [x] **Monitoring** — Does the feature require metrics and/or alerts?
   - *Details:* No Monitoring testing currently
 
 **Integration & Compatibility**
 
-- [ ] **Compatibility Testing** — Ensures feature works across supported platforms, versions, and configurations
+- [x] **Compatibility Testing** — Ensures feature works across supported platforms, versions, and configurations
   - Does the feature maintain backward compatibility with previous API versions and configurations?
   - *Details:* No compatibility testing currently
 
-- [ ] **Upgrade Testing** — Validates upgrade paths from previous versions, data migration, and configuration preservation
+- [x] **Upgrade Testing** — Validates upgrade paths from previous versions, data migration, and configuration preservation
   - *Details:* Not Upgrade relevant
 
-- [ ] **Dependencies** — Blocked by deliverables from other components/products. Identify what we need from other teams before we can test.
+- [x] **Dependencies** — Blocked by deliverables from other components/products. Identify what we need from other teams before we can test.
   - *Details:* No Dependencies
 
-- [ ] **Cross Integrations** — Does the feature affect other features or require testing by other teams? Identify the impact we cause.
+- [x] **Cross Integrations** — Does the feature affect other features or require testing by other teams? Identify the impact we cause.
   - *Details:* Will not affect other components
 
 **Infrastructure**
 
-- [ ] **Cloud Testing** — Does the feature require multi-cloud platform testing? Consider cloud-specific features.
+- [x] **Cloud Testing** — Does the feature require multi-cloud platform testing? Consider cloud-specific features.
   - *Details:* Not multi-cloud platform testing relevant
 
 #### **3. Test Environment**
@@ -251,15 +251,15 @@ The following conditions must be met before testing can begin:
   - *Priority:* P0
 
 - **[TBD]** — Namespace level retentionPolicy: keepSource/deleteSource in MultiNamespaceVirtualMachineStorageMigrationPlan
-  - *Test Scenario:* [Tier 2] Verify source DV/PVC will be remianed/cleaned up after migration completed in MultiNamespaceVirtualMachineStorageMigrationPlan
+  - *Test Scenario:* [Tier 2] Verify source DV/PVC will be remained/cleaned up after migration completed in MultiNamespaceVirtualMachineStorageMigrationPlan
   - *Priority:* P0
 
 - **[TBD]** — Spec level retentionPolicy: keepSource/deleteSource in MultiNamespaceVirtualMachineStorageMigrationPlan
-  - *Test Scenario:* [Tier 2] Verify source DV/PVC will be remianed/cleaned up after migration completed in MultiNamespaceVirtualMachineStorageMigrationPlan
+  - *Test Scenario:* [Tier 2] Verify source DV/PVC will be remained/cleaned up after migration completed in MultiNamespaceVirtualMachineStorageMigrationPlan
   - *Priority:* P0
 
 - **[TBD]** — Combination of namespace level and spec level retentionPolicy: keepSource/deleteSource in MultiNamespaceVirtualMachineStorageMigrationPlan
-  - *Test Scenario:* [Tier 2] Verify source DV/PVC will be remianed/cleaned up after migration completed in MultiNamespaceVirtualMachineStorageMigrationPlan
+  - *Test Scenario:* [Tier 2] Verify source DV/PVC will be remained/cleaned up after migration completed in MultiNamespaceVirtualMachineStorageMigrationPlan
   - *Priority:* P0
 
 - **[TBD]** — retentionPolicy: None
