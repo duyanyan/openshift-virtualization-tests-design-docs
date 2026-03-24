@@ -39,7 +39,7 @@ technology, and testability before formal test planning.
   - *Note any requirements that are unclear or untestable:* Downstream build includes the code is available
 
 - [ ] **Acceptance Criteria**
-  - *List the acceptance criteria:* 
+  - *List the acceptance criteria:*
     - RetentionPolicy works with VirtualMachineStorageMigrationPlan
     - Namespace level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
     - Spec level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
