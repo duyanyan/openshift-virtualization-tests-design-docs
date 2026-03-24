@@ -179,13 +179,13 @@ No verification activities will be performed for these items, and any related is
   - *Details:* Not applicable - UI testing covered by UI team
 
 - [ ] **Monitoring** — Does the feature require metrics and/or alerts?
-  - *Details:* 
+  - *Details:*
 
 **Integration & Compatibility**
 
 - [x] **Compatibility Testing** — Ensures feature works across supported platforms, versions, and configurations
   - Does the feature maintain backward compatibility with previous API versions and configurations?
-  - *Details:* Testing limited to AWS platform (ARM64 workers available). 
+  - *Details:* Testing limited to AWS platform (ARM64 workers available).
 
 - [x] **Upgrade Testing** — Validates upgrade paths from previous versions, data migration, and configuration preservation
   - *Details:* Validate VMs migrated and updated successfully after upgrade
