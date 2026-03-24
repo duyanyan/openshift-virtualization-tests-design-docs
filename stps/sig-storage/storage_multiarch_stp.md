@@ -1,18 +1,15 @@
 # Openshift-virtualization-tests Test plan
 
-## CDI support for heterogeneous multi-arch clusters - Quality Engineering Plan
+## **CDI support for heterogeneous multi-arch clusters - Quality Engineering Plan**
 
 ### **Metadata & Tracking**
 
-| Field                  | Details                                                                                                                          |
-|:-----------------------|:---------------------------------------------------------------------------------------------------------------------------------|
-| **Enhancement(s)**     | [dic-on-heterogeneous-cluster](https://github.com/kubevirt/enhancements/tree/main/veps/sig-storage/dic-on-heterogeneous-cluster) |
-| **Feature in Jira**    | [VIRTSTRAT-494](https://issues.redhat.com/browse/VIRTSTRAT-494)                                                                  |
-| **Jira Tracking**      | [CNV-73892](https://issues.redhat.com/browse/CNV-73892)                                                                          |
-| **QE Owner(s)**        | Yan Du                                                                                                                           |
-| **Owning SIG**         | sig-storage                                                                                                                      |
-| **Participating SIGs** | sig-infra, sig-storage, sig-virt                                                                                                 |
-| **Current Status**     | draft                                                                                                                            |
+- **Enhancement(s):** [dic-on-heterogeneous-cluster](https://github.com/kubevirt/enhancements/tree/main/veps/sig-storage/dic-on-heterogeneous-cluster)
+- **Feature Tracking:** [VIRTSTRAT-494](https://issues.redhat.com/browse/VIRTSTRAT-494)
+- **Epic Tracking:** [CNV-73892](https://issues.redhat.com/browse/CNV-73892)
+- **QE Owner(s):** Yan Du
+- **Owning SIG:** sig-storage
+- **Participating SIGs:** sig-infra, sig-storage, sig-virt
 
 **Document Conventions:**
 - **CDI**: Containerized Data Importer - responsible for importing VM disk images into Kubernetes
@@ -23,6 +20,12 @@
 - **VEP**: Virtualization Enhancement Proposal - design document for new features
 - **Pull Method**: Mechanism for importing images (Pod-based or Node-based)
 
+### **Feature Overview**
+
+This feature enables CDI to support heterogeneous multi-architecture clusters, allowing VM disk images to be imported and matched to the correct architecture (e.g., AMD64, ARM64) in mixed-architecture environments.
+
+---
+
 ### **I. Motivation and Requirements Review (QE Review Guidelines)**
 
 This section documents the mandatory QE review process. The goal is to understand the feature's value,
@@ -30,36 +33,75 @@ technology, and testability before formal test planning.
 
 #### **1. Requirement & User Story Review Checklist**
 
-<!-- **How to complete this checklist:**
-1. **Done column**: Mark [x] when the check is complete
-2. **Details/Notes column**: Summary of the topic (e.g., list key requirements, describe customer value, note acceptance criteria)
-3. **Comments column**: Document any concerns, gaps, or follow-up items needed -->
+- [x] **Review Requirements**
+  - *List the key D/S requirements reviewed:*
+    - CDI must support importing multi-architecture images with architecture matching
+    - Support for both Pod-based and Node-based pull methods
+    - DataSource can reference another DataSource for image inheritance
+    - VM scheduling must respect architecture constraints
 
-| Check                                  | Done | Details/Notes                                                                                                                                                                           | Comments |
-|:---------------------------------------|:-----|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|
-| **Review Requirements**                | [x]  | Reviewed the relevant requirements.                                                                                                                                                     |          |
-| **Understand Value**                   | [x]  | Confirmed clear user stories and understood.  <br/>Understand the difference between U/S and D/S requirements<br/> **What is the value of the feature for RH customers**.               |          |
-| **Customer Use Cases**                 | [x]  | Ensured requirements contain relevant **customer use cases**.                                                                                                                           |          |
-| **Testability**                        | [x]  | Confirmed requirements are **testable and unambiguous**.                                                                                                                                |          |
-| **Acceptance Criteria**                | [x]  | Ensured acceptance criteria are **defined clearly** (clear user stories; D/S requirements clearly defined in Jira).                                                                     |          |
-| **Non-Functional Requirements (NFRs)** | [x]  | Confirmed coverage for NFRs, including Performance, Security, Usability, Downtime, Connectivity, Monitoring (alerts/metrics), Scalability, Portability (e.g., cloud support), and Docs. |          |
+- [x] **Understand Value and Customer Use Cases**
+  - *Describe the feature's value to customers:*
+    - Enables customers to run heterogeneous workloads (AMD64 and ARM64 VMs) on the same cluster
+  - *List the customer use cases identified:*
 
 
-#### **2. Technology and Design Review**
+- [x] **Testability**
+  - *Note any requirements that are unclear or untestable:* None
 
-<!-- **How to complete this checklist:**
-1. **Done column**: Mark [x] when the review is complete
-2. **Details/Notes column**: Summary of the item (e.g., list technology challenges, special environment needs, significant API changes)
-3. **Comments column**: Note any blockers, risks, or items requiring follow-up -->
+- [x] **Acceptance Criteria**
+  - *List the acceptance criteria:*
+    - Multi-arch images are successfully imported with correct architecture matching
+    - Pod-based pull method correctly selects architecture-specific image layers
+    - Node-based pull method schedules import pods on correct architecture nodes
+    - DataSource chaining (DataSource → DataSource) works correctly
+  - *Note any gaps or missing criteria:* None
 
-| Check                            | Done | Details/Notes                                                                                                                                           | Comments |
-|:---------------------------------|:-----|:--------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|
-| **Developer Handoff/QE Kickoff** | [x]  | A meeting where Dev/Arch walked QE through the design, architecture, and implementation details. **Critical for identifying untestable aspects early.** |          |
-| **Technology Challenges**        | [x]  | Identified potential testing challenges related to the underlying technology.                                                                           |          |
-| **Test Environment Needs**       | [x]  | Determined necessary **test environment setups and tools**.                                                                                             |          |
-| **API Extensions**               | [x]  | Reviewed new or modified APIs and their impact on testing.                                                                                              |          |
-| **Topology Considerations**      | [x]  | Evaluated multi-cluster, network topology, and architectural impacts.                                                                                   |          |
+- [x] **Non-Functional Requirements (NFRs)**
+  - *List applicable NFRs and their targets:*
+    - Portability: AWS platform support (ARM64 workers available)
+    - Documentation: User guide updates for multi-arch feature enablement
+  - *Note any NFRs not covered and why:*
+    - Security: No additional security requirements beyond existing CDI security model
+    - Performance baseline testing: Deferred to future performance-focused testing cycles
 
+#### **2. Known Limitations**
+
+The following topics will not be tested or supported:
+
+- The feature is limited to AWS platform due to ARM64 worker availability
+- Performance testing is out of scope for this test plan
+
+#### **3. Technology and Design Review**
+
+- [x] **Developer Handoff/QE Kickoff**
+  - *Key takeaways and concerns:*
+    - Met with the team through the design, architecture, and implementation details
+
+- [x] **Technology Challenges**
+  - *List identified challenges:*
+    - AWS multi-arch cluster duration is 12hr
+  - *Impact on testing approach:*
+    - Requires multi-arch cluster setup (AMD64 + ARM64 workers)
+    - MultiArch Feature Gate is enabled
+
+- [x] **API Extensions**
+  - *List new or modified APIs:*
+    - `spec.registry.platform.architecture` field for specifying target architecture
+    - `DataSourceSource.dataSource.namespace` (string) - Pointer DataSource namespace
+    - `DataSourceSource.dataSource.name` (string) - Pointer DataSource name
+  - *Testing impact:*
+    - New APIs required validation tests in CDI
+
+- [x] **Test Environment Needs**
+  - *See environment requirements in Section II.3 and testing tools in Section II.3.1*
+
+- [x] **Topology Considerations**
+  - *Describe topology requirements:*
+    - Heterogeneous cluster: 3 AMD64 control-plane, 2 AMD64 workers, 1-2 ARM64 workers
+    - AWS platform (ARM64 instances available)
+  - *Impact on test design:*
+    - Tests must verify VM scheduling to correct architecture nodes
 
 ### **II. Software Test Plan (STP)**
 
@@ -67,177 +109,208 @@ This STP serves as the **overall roadmap for testing**, detailing the scope, app
 
 #### **1. Scope of Testing**
 
-<!-- Briefly describe what will be tested. The scope must **cover functional and non-functional requirements**.
-Must ensure user stories are included and aligned to downstream user stories from Section I. -->
-
 **Testing Goals**
-
-<!-- Define specific, measurable testing objectives for this feature using **SMART criteria**
-(Specific, Measurable, Achievable, Relevant, Time-bound).
-Each goal should tie back to requirements from Section I and be independently verifiable.
-**How to Define Good Testing Goals:**
-- **Specific**: Clearly state what will be tested (not "test the feature" but "validate VM live migration
-  with SR-IOV networks")
-- **Measurable**: Define quantifiable success criteria (e.g., "95% of VM migrations complete within xxx seconds")
-- **Achievable**: Realistic given resources and timeline
-- **Relevant**: Directly supports feature acceptance criteria and user stories
-- **Verifiable**: Can be objectively confirmed as complete
-**Priority Levels:**
-- **P0**: Blocking GA - must be complete before release
-- **P1**: High priority - required for full feature coverage
-- **P2**: Nice-to-have - can be deferred if timeline constraints exist -->
-
-<!-- **Example - Functional Goals**:
-- **[P0]** Verify VM live migration completes successfully with new network binding plugin across
-  OVN-Kubernetes and secondary networks
-- **[P1]** Validate hotplug/hotunplug operations work with new storage class without VM restart
-- **[P0]** Confirm RBAC permissions model correctly restricts non-admin users from accessing
-  cluster-wide configuration API
-- **[P2]** Validate new metrics with real-time VM performance data (CPU, memory, network, disk I/O)
-**Example - Quality Goals**:
-- **[P0]** Verify VM live migration completes in <30 seconds for VMs with <8GB memory
-  (performance baseline from VEP-XXXX)
-- **[P1]** Confirm feature operates correctly in disconnected/air-gapped environments with local
-  image registry
-- **[P0]** Validate zero data loss during live migration under network latency up to 100ms
-**Example - Integration Goals**:
-- **[P0]** Verify backward compatibility: upgrade from OCP 4.19 to 4.20 preserves existing VM
-  configurations without manual intervention
-- **[P0]** Confirm interoperability with OpenShift Service Mesh when VMs use Istio sidecar injection
-- **[P1]** Test integration with OpenShift monitoring stack: metrics appear in Prometheus,
-  alerts fire correctly in Alertmanager -->
 
 **Functional Goals**:
 
 - **[P0]** Verify multi-arch image matching architecture with pull method Pod
+  - Import succeeds when using `spec.registry.pullMethod: pod` with `spec.registry.platform.architecture: arm64`
+  - Correct architecture-specific image layers are pulled from multi-arch registry
 
 - **[P0]** Verify multi-arch image matching architecture with pull method Node
+  - Import succeeds when using `spec.registry.pullMethod: node` with correct architecture
+  - Import pod is scheduled on node matching the target architecture
 
 - **[P0]** Validate DataSource pointing to another DataSource
+  - DataSource chaining works correctly (DataSource → DataSource reference)
+  - Architecture information is preserved through DataSource chain
+
+- **[P1]** Verify multi-arch image import fails gracefully with absent architecture
+  - Import fails with clear error when requesting architecture not present in multi-arch image
+  - For pull method Pod: import fails with appropriate error message
+  - For pull method Node: import pod gets "Unschedulable" condition when no matching nodes exist
 
 **Out of Scope (Testing Scope Exclusions)**
 
+The following items are explicitly Out of Scope for this test cycle and represent intentional exclusions.
+No verification activities will be performed for these items, and any related issues found will not be classified as defects for this release.
 
-| Out-of-Scope Item               | Rationale                                                                                           | PM/ Lead Agreement |
-|:--------------------------------|:----------------------------------------------------------------------------------------------------|:-------------------|
-| Performance Testing             | Out of scope for this test plan                                                                     | [ ] Name/Date      |
-| Security Testing                | Out of scope for this test plan                                                                     | [ ] Name/Date      |
-| Usability testing               | Should be done by UI team                                                                           | [ ] Name/Date      |
-| Backward Compatibility Testing  | VM creation using architecture-specific DataSources and legacy DataSource covered by SSP test plan  | [ ] Name/Date      |
+- [x] **Performance Testing**
+  - *Rationale:* Out of scope for this test plan; performance testing will be addressed in dedicated performance testing cycles
+  - *PM/Lead Agreement:* [ ] Name/Date
+
+- [x] **Security Testing**
+  - *Rationale:* Feature does not introduce new security attack vectors; uses existing security model
+  - *PM/Lead Agreement:* [ ] Name/Date
+
+- [x] **Usability testing**
+  - *Rationale:* UI testing should be done by UI team as part of their standard testing
+  - *PM/Lead Agreement:* [ ] Name/Date
+
+- [x] **Backward Compatibility Testing (VM creation with architecture-specific DataSources)**
+  - *Rationale:* VM creation using architecture-specific DataSources and legacy DataSource backward compatibility is covered by SSP test plan
+  - *PM/Lead Agreement:* [ ] Name/Date
 
 #### **2. Test Strategy**
 
-  <!-- The following test strategy considerations must be reviewed and addressed. Mark "Y" if applicable,
-  "N/A" if not applicable (with justification in Comments). Empty cells indicate incomplete review. -->
+**Functional**
 
+- [x] **Functional Testing** — Validates that the feature works according to specified requirements and user stories
+  - *Details:* Validates that CDI correctly imports multi-arch images with proper architecture matching for both Pod and Node pull methods. Verifies DataSource chaining functionality and error handling for missing architectures.
 
-| Item                           | Description                                                                                                                                                  | Applicable (Y/N or N/A) | Comments                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-|:-------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Functional Testing             | Validates that the new storage API works for both pull modes                                                                                                 | Y                       | Validates that the new storage API works multi-arch cluster                                                                                                                                                                                                                                                                                                                                                                                                             |
-| Automation Testing             | Ensures test cases are automated for continuous integration and regression coverage                                                                          | Y                       | Ensures test cases are automated                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| Performance Testing            | Validates feature performance meets requirements (latency, throughput, resource usage)                                                                       | N                       | No performance testing currently                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| Security Testing               | Verifies security requirements, RBAC, authentication, authorization, and vulnerability scanning                                                              | N                       | Not security relevant                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| Usability Testing              | Validates user experience, UI/UX consistency, and accessibility requirements. Does the feature require UI? If so, ensure the UI aligns with the requirements | N                       | UI testing will be covered by UI team                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| Compatibility Testing          | Ensures feature works across supported platforms, versions, and configurations                                                                               | N                       | No compatibility testing currently                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| Regression Testing             | Verifies that new changes do not break existing functionality                                                                                                | Y                       | Verifies that new api changes do not break existing functionality                                                                                                                                                                                                                                                                                                                                                                                                       |
-| Upgrade Testing                | Validates upgrade paths from previous versions, data migration, and configuration preservation                                                               | Y                       | Validates upgrade paths from previous versions, data migration, and configuration preservation                                                                                                                                                                                                                                                                                                                                                                          |
-| Backward Compatibility Testing | Ensures feature maintains compatibility with previous API versions and configurations                                                                        | Y                       | Ensures feature maintains compatibility with previous API versions and configurations                                                                                                                                                                                                                                                                                                                                                                                   |
-| Dependencies                   | Dependent on deliverables from other components/products? Identify what is tested by which team.                                                             | N                       | Dependent on deliverables from other components/products? Identify what is tested by which team                                                                                                                                                                                                                                                                                                                                                                         |
-| Cross Integrations             | Does the feature affect other features/require testing by other components? Identify what is tested by which team.                                           | Y                       | **IUO**: HCO node architecture tracking (`status.nodeInfo`), FG activation/propagation, new metrics & alerts, upgrade<br/> **SSP**: Templates creation & utilization, new SSP API (`enableMultipleArchitectures`, `cluster` fields)<br/> **Storage**: CDI-importer architecture selection, legacy `DataSource` backward compatibility, new CDI `platform` API<br/> **Virt**: VM scheduling to correct architecture nodes, VM migration between same-arch nodes, upgrade |
-| Monitoring                     | Does the feature require metrics and/or alerts?                                                                                                              | N                       | No Monitoring testing currently                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| Cloud Testing                  | Does the feature require multi-cloud platform testing? Consider cloud-specific features.                                                                     | N                       | The testing is limited to AWS clusters                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+- [x] **Automation Testing** — Confirms tests are expected to be automated
+  - *Details:* All test scenarios will be automated and tests will run on multi-arch cluster environments.
 
+- [x] **Regression Testing** — Verifies that new changes do not break existing functionality
+  - *Details:* Verify that new API changes do not break existing single-architecture import workflows.
+
+**Non-Functional**
+
+- [ ] **Performance Testing** — Validates feature performance meets requirements (latency, throughput, resource usage)
+  - *Details:* Not applicable - explicitly out of scope for this test plan
+
+- [ ] **Scale Testing** — Validates feature behavior under increased load and at production-like scale (e.g., large number of VMs, nodes, or concurrent operations)
+  - *Details:* Not applicable - no specific scale requirements defined for this feature
+
+- [ ] **Security Testing** — Verifies security requirements, RBAC, authentication, authorization, and vulnerability scanning
+  - *Details:* Not applicable - feature does not introduce new security requirements
+
+- [ ] **Usability Testing** — Validates user experience and accessibility requirements
+  - *Details:* Not applicable - UI testing covered by UI team
+
+- [ ] **Monitoring** — Does the feature require metrics and/or alerts?
+  - *Details:* 
+
+**Integration & Compatibility**
+
+- [x] **Compatibility Testing** — Ensures feature works across supported platforms, versions, and configurations
+  - Does the feature maintain backward compatibility with previous API versions and configurations?
+  - *Details:* Testing limited to AWS platform (ARM64 workers available). 
+
+- [x] **Upgrade Testing** — Validates upgrade paths from previous versions, data migration, and configuration preservation
+  - *Details:* Validate VMs migrated and updated successfully after upgrade
+
+- [x] **Dependencies** — Blocked by deliverables from other components/products. Identify what we need from other teams before we can test.
+  - *Details:*
+    - CDI must support architecture-specific registry imports (required for testing)
+    - Feature gate `enableMultiArchBootImageImport` must be available and functional
+
+- [x] **Cross Integrations** — Does the feature affect other features or require testing by other teams? Identify the impact we cause.
+  - *Details:*
+    - **IUO**: HCO node architecture tracking (`status.nodeInfo`), feature gate activation/propagation, new metrics & alerts, upgrade flows
+    - **SSP**: Template creation & utilization, new SSP API (`enableMultipleArchitectures`, `cluster` fields), architecture-specific DataSource generation
+    - **Storage**: CDI-importer architecture selection, legacy `DataSource` backward compatibility, new CDI `platform` API
+    - **Virt**: VM scheduling to correct architecture nodes, VM migration between same-arch nodes only, upgrade compatibility
+
+**Infrastructure**
+
+- [x] **Cloud Testing** — Does the feature require multi-cloud platform testing? Consider cloud-specific features.
+  - *Details:* Testing is limited to AWS clusters due to ARM64 worker availability. Other cloud platforms are not in scope for initial testing.
 
 #### **3. Test Environment**
 
-  <!-- **Note:** "N/A" means explicitly not applicable. Cannot leave empty cells. -->
+- **Cluster Topology:** Multi-arch cluster (3 AMD64 control-plane, 2 AMD64 workers, 1-2 ARM64 workers)
 
+- **OCP & OpenShift Virtualization Version(s):** OCP 4.22 with OpenShift Virtualization 4.22
 
+- **CPU Virtualization:** VT-x (Intel AMD64) and ARM64 virtualization enabled
 
-| Environment Component                         | Configuration            | Specification Examples                                        |
-|:----------------------------------------------|:-------------------------|:--------------------------------------------------------------|
-| **Cluster Topology**                          | MultiArch cluster        | No specific Cluster Topology required                         |
-| **OCP & OpenShift Virtualization Version(s)** | OCP 4.22, CNV-4.22       | OCP 4.22 with OpenShift Virtualization 4.22 on AWS            |
-| **CPU Virtualization**                        | Multi-arch cluster       | 3 amd64 control-plane, 2 amd64 workers, and 1-2 arm64 workers |
-| **Compute Resources**                         | N/A                      | No special compute requirements                               |
-| **Special Hardware**                          | N/A                      | No special hardware required                                  |
-| **Storage**                                   | io2-csi storage class    | AWS EBS io2 CSI driver                                        |
-| **Network**                                   | OVN-Kubernetes (default) | No special network requirements                               |
-| **Required Operators**                        | N/A                      | N/A                                                           |
-| **Platform**                                  | AWS                      | ARM64 workers available on AWS                                |
-| **Special Configurations**                    | N/A                      | No special configurations required                            |
+- **Compute Resources:** Minimum per worker node: 8 vCPUs, 32GB RAM
+
+- **Special Hardware:** ARM64 worker nodes (AWS ARM64 instances)
+
+- **Storage:** io2-csi storage class (AWS EBS io2 CSI driver)
+
+- **Network:** OVN-Kubernetes, IPv4
+
+- **Required Operators:** N/A
+
+- **Platform:** AWS (ARM64 workers available)
+
+- **Special Configurations:** Feature gate `enableMultiArchBootImageImport` enabled
 
 #### **3.1. Testing Tools & Frameworks**
 
-  <!-- Document any **new or additional** testing tools, frameworks, or infrastructure required specifically
-  for this feature. **Note:** Only list tools that are **new** or **different** from standard testing infrastructure.
-  Leave empty if using standard tools. -->
+- **Test Framework:** Standard (multi-arch cluster required)
 
-| Category           | Tools/Frameworks   |
-|:-------------------|:-------------------|
-| **Test Framework** | MultiArch cluster  |
-| **CI/CD**          |                    |
-| **Other Tools**    |                    |
+- **CI/CD:** N/A
+
+- **Other Tools:** N/A
 
 #### **4. Entry Criteria**
 
-  The following conditions must be met before testing can begin:
+The following conditions must be met before testing can begin:
 
-- [x] VEP [dic-on-heterogeneous-cluster](https://github.com/kubevirt/enhancements/tree/main/veps/sig-storage/dic-on-heterogeneous-cluster) is approved and merged
-
-- [x] CDI support arch-specific registry imports
-
-- [ ] Test environment (MultiArch cluster) can be set up and configured
-
-- [x] Feature gate enableMultiArchBootImageImport can be enabled
-
-
+- [x] Requirements and design documents are **approved and merged** (VEP [dic-on-heterogeneous-cluster](https://github.com/kubevirt/enhancements/tree/main/veps/sig-storage/dic-on-heterogeneous-cluster))
+- [x] CDI support for arch-specific registry imports is implemented
+- [x] Test environment can be **set up and configured** (multi-arch cluster on AWS)
+- [x] Feature gate `enableMultiArchBootImageImport` can be enabled
 
 #### **5. Risks**
 
-  <!-- Document specific risks for this feature. If a risk category is not applicable, mark as "N/A" with
-  justification in mitigation strategy.
-  **Note:** Empty "Specific Risk" cells mean this must be filled. "N/A" means explicitly not applicable
-  with justification. -->
+**Timeline/Schedule**
 
+- [ ] **Risk:** N/A
+  - **Mitigation:** No timeline risks identified at this time
+  - *Estimated impact on schedule:* None
 
-| Risk Category        | Specific Risk for This Feature | Mitigation Strategy | Status |
-|:---------------------|:-------------------------------|:--------------------|:-------|
-| Timeline/Schedule    | N/A                            |                     | [ ]    |
-| Test Coverage        | N/A                            |                     | [ ]    |
-| Test Environment     | N/A                            |                     | [ ]    |
-| Untestable Aspects   | N/A                            |                     | [ ]    |
-| Resource Constraints | N/A                            |                     | [ ]    |
-| Dependencies         | N/A                            |                     | [ ]    |
-| Other                | N/A                            |                     | [ ]    |
+**Test Coverage**
 
-#### **6. Known Limitations**
+- [ ] **Risk:** N/A
+  - **Mitigation:** All functional requirements have corresponding test scenarios
+  - *Areas with reduced coverage:* None
 
-<!-- Document any known limitations, constraints, or trade-offs in the feature implementation or testing approach.
+**Test Environment**
 
-**Examples:**
-- Feature does not support IPv6 (only IPv4)
-- No support for ARM64 architecture in this release -->
+- [x] **Risk:**  N/A
+  - **Mitigation:** N/A
+  - *Missing resources or infrastructure:*  N/A
+
+**Untestable Aspects**
+
+- [ ] **Risk:** N/A
+  - **Mitigation:** N/A
+  - *Alternative validation approach:* N/A
+
+**Resource Constraints**
+
+- [ ] **Risk:** N/A
+  - **Mitigation:**  N/A
+  - *Current capacity gaps:*  N/A
+
+**Dependencies**
+
+- [x] **Risk:**  N/A
+  - **Mitigation:**  N/A
+  - *Dependent teams or components:*  N/A
+**Other**
+
+- [ ] **Risk:** N/A
+  - **Mitigation:**  N/A
 
 ---
 
 ### **III. Test Scenarios & Traceability**
 
-<!-- This section links requirements to test coverage, enabling reviewers to verify all requirements are
-tested. -->
+- **[TBD]** — Pull multi-arch image matching architecture with pull method Pod
+  - *Test Scenario:* [Tier 1] Verify the import succeeded with spec.registry.pullMethod: pod and spec.registry.platform.architecture: arm64
+  - *Priority:* P0
 
-<!-- **Requirement ID:**
-- Use Jira issue key (e.g., CNV-12345)
-- Each row should trace back to a specific testable requirement in Jira
-**Requirement Summary:** Brief description from the Jira issue (user story format preferred) -->
+- **[TBD]** — Pull failed when multi-arch image with absent architecture with pull method Pod
+  - *Test Scenario:* [Tier 1] Verify the import failed with spec.registry.pullMethod: pod and spec.registry.platform.architecture: absent (architecture not in image)
+  - *Priority:* P1
 
-| Requirement ID | Requirement Summary                                                             | Test Scenario(s)                                                                                                                              | Tier   | Priority |
-|:---------------|:--------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------|:-------|:---------|
-| TBD            | Pull multi-arch image matching architecture with pull method Pod                | Verify the import succeeded with spec.registry.pullMethod: pod and spec.registry.platform.architecture: arm64                                 | Tier 1 | P0       |
-| TBD            | Pull failed when multi-arch image with absent architecture with pull method Pod | Verify the import failed with spec.registry.pullMethod: pod and spec.registry.platform.architecture: absent                                   | Tier 1 | P1       |
-| TBD            | node selector for multi-arch image architecture with pull method Node           | Verify the import pod label has "Unschedulable" condition with spec.registry.pullMethod: node and spec.registry.platform.architecture: absent | Tier 1 | P1       |
-| TBD            | DataSource pointing to another DataSource                                       | Verify the import succeeded when define the DataSource to another DataSource                                                                  | Tier 1 | P0       |
-| TBD            | Cross-architecture VM cloning                                                   | Clone amd64 VM, verify clone uses amd64 DataSource. Attempt cross-arch clone, verify appropriate error                                        | Tier 2 | P1       |
+- **[TBD]** — Node selector for multi-arch image architecture with pull method Node
+  - *Test Scenario:* [Tier 1] Verify the import pod has "Unschedulable" condition with spec.registry.pullMethod: node and spec.registry.platform.architecture: absent (no matching nodes)
+  - *Priority:* P1
+
+- **[TBD]** — DataSource pointing to another DataSource
+  - *Test Scenario:* [Tier 1] Verify the import succeeded when DataSource references another DataSource
+  - *Priority:* P0
+
+- **[TBD]** — Cross-architecture VM cloning
+  - *Test Scenario:* [Tier 2] Clone AMD64 VM, verify clone uses AMD64 DataSource. Attempt cross-arch clone, verify appropriate error message
+  - *Priority:* P1
 
 ---
 
