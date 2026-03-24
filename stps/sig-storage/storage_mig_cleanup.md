@@ -39,7 +39,7 @@ technology, and testability before formal test planning.
   - *Note any requirements that are unclear or untestable:* Downstream build includes the code is available
 
 - [ ] **Acceptance Criteria**
-  - *List the acceptance criteria:* 
+  - *List the acceptance criteria:*
     - retentionPolicy works with VirtualMachineStorageMigrationPlan
     - namespace level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
     - spec level retentionPolicy works with MultiNamespaceVirtualMachineStorageMigrationPlan
@@ -64,7 +64,7 @@ The following topics will not be tested or supported.
 
 - [x] **Technology Challenges**
   - *List identified challenges:* Identified potential testing challenges related to the underlying technology.
-  - *Impact on testing approach:* 
+  - *Impact on testing approach:*
 
 - [ ] **API Extensions**
   - *List new or modified APIs:* Introduces a retentionPolicy field to user for keeping (keepSource) or deleting (deleteSource) the old volume.
@@ -259,7 +259,7 @@ The following conditions must be met before testing can begin:
 - **[TBD]** — Combination of namespace level and spec level retentionPolicy: keepSource/deleteSource in MultiNamespaceVirtualMachineStorageMigrationPlan
   - *Test Scenario:* [Tier 2] Verify source DV/PVC will be remianed/cleaned up after migration completed in MultiNamespaceVirtualMachineStorageMigrationPlan
   - *Priority:* P0
-  
+
 - **[TBD]** — retentionPolicy: None
   - *Test Scenario:* [Tier 2] Verify default behavior when retentionPolicy is not set
   - *Priority:* P1
