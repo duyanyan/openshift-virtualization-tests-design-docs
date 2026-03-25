@@ -58,7 +58,7 @@ technology, and testability before formal test planning.
     - Storage migration completes successfully for mixed offline VMs and running VMs in a single migration plan
     - Storage migration completes successfully for offline VMs with hotplug disk
     - Source volume could be retained/cleaned up for an offline VM migration completed with retentionPolicy defined
-  
+
   - *Note any gaps or missing criteria:* N/A
 
 - [x] **Non-Functional Requirements (NFRs)**
@@ -98,8 +98,8 @@ None identified at this time.
 
 - [x] **Technology Challenges**
   <!-- Identified potential testing challenges related to the underlying technology.-->
-  - *List identified challenges:* Offline VMs initiate migration through CDI clone of the source PVC 
-  - *Impact on testing approach:* Test cases must verify both offline VM migration mixed scenarios with both offline and running VMs in the same migration plan. 
+  - *List identified challenges:* Offline VMs initiate migration through CDI clone of the source PVC
+  - *Impact on testing approach:* Test cases must verify both offline VM migration mixed scenarios with both offline and running VMs in the same migration plan.
 
 - [x] **API Extensions**
   <!-- Review new or modified APIs and their impact on testing. Covers both new tests for new APIs and updates to existing tests for modified APIs.
@@ -216,12 +216,12 @@ Example: Strategy says "Performance testing is applicable — we will measure mi
   - *Details:* All test cases will be automated
 
 - [x] **Regression Testing** — Verifies that new changes do not break existing functionality
-  - *Details:* Verify that existing online VM storage migration functionality remains unaffected by the offline VM support additions 
+  - *Details:* Verify that existing online VM storage migration functionality remains unaffected by the offline VM support additions
 
 **Non-Functional**
 
 - [ ] **Performance Testing** — Validates feature performance meets requirements (latency, throughput, resource usage)
-  - *Details:* Not applicable 
+  - *Details:* Not applicable
 
 - [ ] **Scale Testing** — Validates feature behavior under increased load and at production-like scale (e.g., large number of VMs, nodes, or concurrent operations)
   - *Details:* Not applicable
@@ -392,7 +392,7 @@ justification in mitigation strategy. -->
   - *Test Scenario:* [Tier 2] Verify storage migration completes successfully for offline VM with hotplug disk
   - *Priority:* P1
 
-- **[CNV-82430]** — RetentionPolicy with offline VM  
+- **[CNV-82430]** — RetentionPolicy with offline VM
   - *Test Scenario:* [Tier 2] Verify source volume will be remained/cleaned up for offline VM with retentionPolicy set in Plan
   - *Priority:* P0
 
