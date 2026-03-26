@@ -10,7 +10,7 @@
 - **QE Owner(s):** Yan Du
 - **Owning SIG:** sig-storage
 - **Participating SIGs:** sig-iuo, sig-infra, sig-storage, sig-virt, sig-network, sig-ui
-- 
+-
 **Document Conventions:**
 - **CDI**: Containerized Data Importer - responsible for importing VM disk images into Kubernetes
 - **DIC**: DataImportCron - automates periodic import of VM images
@@ -293,7 +293,7 @@ The following conditions must be met before testing can begin:
 ### **III. Test Scenarios & Traceability**
 
 - **[TBD]** — Pull multi-arch image matching architecture with pull method Pod
-  - *Test Scenario:* [Tier 1] Verify the import succeeded with dv.spec.source.registry.pullMethod: pod and dv.spec.source.registry.platform.architecture: arm64 
+  - *Test Scenario:* [Tier 1] Verify the import succeeded with dv.spec.source.registry.pullMethod: pod and dv.spec.source.registry.platform.architecture: arm64
   - *Priority:* P0
 
 - **[TBD]** — Pull failed when multi-arch image with absent architecture with pull method Pod
