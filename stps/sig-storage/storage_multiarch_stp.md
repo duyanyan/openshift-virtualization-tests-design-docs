@@ -9,8 +9,8 @@
 - **Epic Tracking:** [CNV-73892](https://issues.redhat.com/browse/CNV-73892)
 - **QE Owner(s):** Yan Du
 - **Owning SIG:** sig-storage
-- **Participating SIGs:** sig-infra, sig-storage, sig-virt
-
+- **Participating SIGs:** sig-iuo, sig-infra, sig-storage, sig-virt, sig-network, sig-ui
+- 
 **Document Conventions:**
 - **CDI**: Containerized Data Importer - responsible for importing VM disk images into Kubernetes
 - **DIC**: DataImportCron - automates periodic import of VM images
@@ -87,9 +87,9 @@ The following topics will not be tested or supported:
 
 - [x] **API Extensions**
   - *List new or modified APIs:*
-    - `spec.registry.platform.architecture` field for specifying target architecture
-    - `DataSourceSource.dataSource.namespace` (string) - Pointer DataSource namespace
-    - `DataSourceSource.dataSource.name` (string) - Pointer DataSource name
+    - `dv.spec.registry.platform.architecture` field for specifying target architecture
+    - `datasource.spec.source.dataSource.namespace` (string) - Pointer DataSource namespace
+    - `datasource.spec.source.dataSource.name` (string) - Pointer DataSource name
   - *Testing impact:*
     - New APIs required validation tests in CDI
 
@@ -114,11 +114,11 @@ This STP serves as the **overall roadmap for testing**, detailing the scope, app
 **Functional Goals**:
 
 - **[P0]** Verify multi-arch image matching architecture with pull method Pod
-  - Import succeeds when using `spec.registry.pullMethod: pod` with `spec.registry.platform.architecture: arm64`
+  - Import succeeds when using `dv.spec.source.registry.pullMethod: pod` with `dv.spec.source.registry.platform.architecture: arm64`
   - Correct architecture-specific image layers are pulled from multi-arch registry
 
 - **[P0]** Verify multi-arch image matching architecture with pull method Node
-  - Import succeeds when using `spec.registry.pullMethod: node` with correct architecture
+  - Import succeeds when using `dv.spec.source.registry.pullMethod: node` with correct architecture
   - Import pod is scheduled on node matching the target architecture
 
 - **[P0]** Validate DataSource pointing to another DataSource
@@ -293,15 +293,15 @@ The following conditions must be met before testing can begin:
 ### **III. Test Scenarios & Traceability**
 
 - **[TBD]** — Pull multi-arch image matching architecture with pull method Pod
-  - *Test Scenario:* [Tier 1] Verify the import succeeded with spec.registry.pullMethod: pod and spec.registry.platform.architecture: arm64
+  - *Test Scenario:* [Tier 1] Verify the import succeeded with dv.spec.source.registry.pullMethod: pod and dv.spec.source.registry.platform.architecture: arm64 
   - *Priority:* P0
 
 - **[TBD]** — Pull failed when multi-arch image with absent architecture with pull method Pod
-  - *Test Scenario:* [Tier 1] Verify the import failed with spec.registry.pullMethod: pod and spec.registry.platform.architecture: absent (architecture not in image)
+  - *Test Scenario:* [Tier 1] Verify the import failed with dv.spec.source.registry.pullMethod: pod and dv.spec.source.registry.platform.architecture: absent (architecture not in image)
   - *Priority:* P1
 
 - **[TBD]** — Node selector for multi-arch image architecture with pull method Node
-  - *Test Scenario:* [Tier 1] Verify the import pod has "Unschedulable" condition with spec.registry.pullMethod: node and spec.registry.platform.architecture: absent (no matching nodes)
+  - *Test Scenario:* [Tier 1] Verify the import pod has "Unschedulable" condition with dv.spec.source.registry.pullMethod: node and dv.spec.source.registry.platform.architecture: absent (no matching nodes)
   - *Priority:* P1
 
 - **[TBD]** — DataSource pointing to another DataSource
@@ -309,7 +309,7 @@ The following conditions must be met before testing can begin:
   - *Priority:* P0
 
 - **[TBD]** — Cross-architecture VM cloning
-  - *Test Scenario:* [Tier 2] Clone AMD64 VM, verify clone uses AMD64 DataSource. Attempt cross-arch clone, verify appropriate error message
+  - *Test Scenario:* [Tier 2] Attempt cross-arch clone, verify appropriate error message
   - *Priority:* P1
 
 ---
